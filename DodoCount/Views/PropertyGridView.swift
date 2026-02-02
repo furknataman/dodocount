@@ -52,6 +52,9 @@ struct PropertyGridView: View {
         )
         .preferredColorScheme(.dark)
         .onAppear {
+            Task {
+                await multiPropertyService.loadAllProperties()
+            }
             multiPropertyService.startRefreshTimer()
         }
     }

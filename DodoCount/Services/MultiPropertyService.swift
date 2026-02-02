@@ -59,12 +59,18 @@ class MultiPropertyService: ObservableObject {
         isLoading = true
 
         // Get properties from AnalyticsService
-        let properties = AnalyticsService.shared.properties
+        var properties = AnalyticsService.shared.properties
+
+        // Wait for properties to be loaded (max 5 retries)
+        var retries = 0
+        while properties.isEmpty && retries < 5 {
+            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 second
+            properties = AnalyticsService.shared.properties
+            retries += 1
+        }
 
         if properties.isEmpty {
-            // Wait for properties to be loaded
-            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
-            await loadAllProperties()
+            isLoading = false
             return
         }
 
@@ -112,10 +118,54 @@ class MultiPropertyService: ObservableObject {
         guard !isLoading else { return }
 
         if GoogleAuthService.shared.isAuthenticated {
-            Task {
-                await loadAllProperties()
+            Task { @MainActor in
+                await refreshAllPropertyData()
             }
         }
+    }
+
+    @MainActor
+    private func refreshAllPropertyData() async {
+        guard !isLoading else { return }
+        guard !propertyDataList.isEmpty else {
+            await loadAllProperties()
+            return
+        }
+
+        isLoading = true
+
+        // Fetch data for all existing properties in parallel
+        await withTaskGroup(of: (String, RealtimeData?, DailyMetrics?, String?).self) { group in
+            for propertyData in propertyDataList {
+                group.addTask { [weak self] in
+                    do {
+                        async let realtimeTask = self?.fetchRealtimeData(propertyId: propertyData.property.id)
+                        async let dailyTask = self?.fetchDailyMetrics(propertyId: propertyData.property.id)
+
+                        let (realtime, daily) = try await (realtimeTask, dailyTask)
+                        return (propertyData.property.id, realtime, daily, nil)
+                    } catch {
+                        return (propertyData.property.id, nil, nil, error.localizedDescription)
+                    }
+                }
+            }
+
+            for await (propertyId, realtime, daily, error) in group {
+                if let index = propertyDataList.firstIndex(where: { $0.id == propertyId }) {
+                    if let realtime = realtime {
+                        propertyDataList[index].realtime = realtime
+                    }
+                    if let daily = daily {
+                        propertyDataList[index].daily = daily
+                    }
+                    propertyDataList[index].error = error
+                    propertyDataList[index].lastUpdated = Date()
+                }
+            }
+        }
+
+        lastUpdated = Date()
+        isLoading = false
     }
 
     // MARK: - API Methods
@@ -217,10 +267,13 @@ class MultiPropertyService: ObservableObject {
         stopRefreshTimer()
 
         let interval = SettingsManager.shared.settings.refreshInterval.seconds
-        refreshTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
-            if GoogleAuthService.shared.isAuthenticated {
-                self?.refreshData()
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+                if GoogleAuthService.shared.isAuthenticated {
+                    self?.refreshData()
+                }
             }
+            RunLoop.main.add(self!.refreshTimer!, forMode: .common)
         }
     }
 
