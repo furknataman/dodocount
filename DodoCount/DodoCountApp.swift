@@ -112,15 +112,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         guard let button = statusItem.button else { return }
 
         let displayMode = SettingsManager.shared.settings.menubarDisplayMode
+        let useGridView = SettingsManager.shared.settings.useGridView
         let isConnected = analyticsService.isConnected
         let isAuthenticated = GoogleAuthService.shared.isAuthenticated
-        let activeUsers = analyticsService.realtime.activeUsers
+
+        // Get active users - total if grid view, single property otherwise
+        let activeUsers: Int
+        if useGridView {
+            activeUsers = MultiPropertyService.shared.propertyDataList.reduce(0) { $0 + $1.realtime.activeUsers }
+        } else {
+            activeUsers = analyticsService.realtime.activeUsers
+        }
 
         // Determine what to display
         let displayValue: String
         if !isAuthenticated {
             displayValue = "-"  // Not signed in
-        } else if !isConnected {
+        } else if !isConnected && !useGridView {
             displayValue = "X"  // Signed in but server unreachable
         } else {
             displayValue = "\(activeUsers)"
