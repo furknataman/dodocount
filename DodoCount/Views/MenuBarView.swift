@@ -6,6 +6,10 @@ struct MenuBarView: View {
     @ObservedObject private var alertService = AlertService.shared
     @ObservedObject private var searchConsole = SearchConsoleService.shared
 
+    private var hasMultipleProperties: Bool {
+        analyticsService.properties.count > 1
+    }
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
@@ -132,6 +136,14 @@ struct MenuBarView: View {
             }
 
             Spacer()
+
+            // Grid view toggle (only if multiple properties)
+            if hasMultipleProperties {
+                HeaderButton(icon: "square.grid.2x2", tooltip: "Grid View") {
+                    settingsManager.settings.useGridView = true
+                    NotificationCenter.default.post(name: NSNotification.Name("GridViewChanged"), object: nil)
+                }
+            }
 
             // Dashboard button
             HeaderButton(icon: "rectangle.expand.vertical", tooltip: "Open Dashboard") {

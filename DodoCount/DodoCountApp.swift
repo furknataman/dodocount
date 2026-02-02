@@ -58,12 +58,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
 
-        // Create popover
+        // Create popover with dynamic content
         popover = NSPopover()
-        popover.contentSize = NSSize(width: 340, height: 720)
+        updatePopoverSize()
         popover.behavior = .transient
         popover.animates = true
-        popover.contentViewController = NSHostingController(rootView: MenuBarView())
+        popover.contentViewController = NSHostingController(rootView: MainPopoverView())
+
+        // Observe grid view changes to update popover size
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updatePopoverSize),
+            name: NSNotification.Name("GridViewChanged"),
+            object: nil
+        )
 
         // Create right-click menu
         setupContextMenu()
@@ -88,6 +96,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
             // Check goal progress
             self.alertService.checkGoalProgress(todayUsers: Int(self.analyticsService.daily.users.today))
+        }
+    }
+
+    @objc private func updatePopoverSize() {
+        let useGridView = SettingsManager.shared.settings.useGridView
+        if useGridView {
+            popover.contentSize = NSSize(width: 380, height: 520)
+        } else {
+            popover.contentSize = NSSize(width: 340, height: 720)
         }
     }
 

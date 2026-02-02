@@ -242,6 +242,20 @@ struct SettingsView: View {
                     .pickerStyle(.segmented)
                 }
 
+                // View Mode section
+                SettingsSection(title: "VIEW MODE") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Toggle("Grid View (All Properties)", isOn: $settingsManager.settings.useGridView)
+                            .onChange(of: settingsManager.settings.useGridView) { _, _ in
+                                NotificationCenter.default.post(name: NSNotification.Name("GridViewChanged"), object: nil)
+                            }
+
+                        Text("Show all your GA4 properties in a grid layout")
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondary)
+                    }
+                }
+
                 // Appearance section
                 SettingsSection(title: L10n.Settings.appearance) {
                     Picker(L10n.Settings.appearance, selection: $settingsManager.settings.appearanceMode) {

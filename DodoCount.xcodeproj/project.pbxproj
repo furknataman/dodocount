@@ -41,6 +41,11 @@
 		1A0000760000000000000001 /* SearchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000770000000000000001 /* SearchSection.swift */; };
 		1A0000780000000000000001 /* PagesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000790000000000000001 /* PagesSection.swift */; };
 		1A00007A0000000000000001 /* AudienceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00007B0000000000000001 /* AudienceSection.swift */; };
+		32992839B3767A652021304B /* MultiPropertyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3214E6F6B315029E4197C519 /* MultiPropertyService.swift */; };
+		A9731FABE91935D105FBAF2A /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A82CF97D563C704911C057 /* PropertyData.swift */; };
+		B6306F6B14D0E925330E4E7F /* PropertyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9157521CF733F7DAC71E538A /* PropertyCard.swift */; };
+		CBF62FFE5EC06F4297F634CB /* MainPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707725B2065332CF52F69730 /* MainPopoverView.swift */; };
+		F67C6C98D395623E907CF553 /* PropertyGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248DD0AC5AFD4B7FEFA32951 /* PropertyGridView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +89,11 @@
 		1A0000770000000000000001 /* SearchSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSection.swift; sourceTree = "<group>"; };
 		1A0000790000000000000001 /* PagesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagesSection.swift; sourceTree = "<group>"; };
 		1A00007B0000000000000001 /* AudienceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudienceSection.swift; sourceTree = "<group>"; };
+		248DD0AC5AFD4B7FEFA32951 /* PropertyGridView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PropertyGridView.swift; path = PropertyGridView.swift; sourceTree = "<group>"; };
+		3214E6F6B315029E4197C519 /* MultiPropertyService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultiPropertyService.swift; path = MultiPropertyService.swift; sourceTree = "<group>"; };
+		707725B2065332CF52F69730 /* MainPopoverView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MainPopoverView.swift; path = MainPopoverView.swift; sourceTree = "<group>"; };
+		77A82CF97D563C704911C057 /* PropertyData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PropertyData.swift; path = PropertyData.swift; sourceTree = "<group>"; };
+		9157521CF733F7DAC71E538A /* PropertyCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PropertyCard.swift; path = PropertyCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +142,7 @@
 			children = (
 				1A0000040000000000000001 /* Settings.swift */,
 				1A0000060000000000000001 /* Analytics.swift */,
+				77A82CF97D563C704911C057 /* PropertyData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -146,6 +157,7 @@
 				1A0000450000000000000001 /* HotkeyService.swift */,
 				1A00004B0000000000000001 /* GoogleAuthService.swift */,
 				1A00004D0000000000000001 /* SearchConsoleService.swift */,
+				3214E6F6B315029E4197C519 /* MultiPropertyService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -157,29 +169,10 @@
 				1A00002B0000000000000001 /* Components */,
 				1A00002C0000000000000001 /* Settings */,
 				1A00006D0000000000000001 /* Dashboard */,
+				707725B2065332CF52F69730 /* MainPopoverView.swift */,
+				248DD0AC5AFD4B7FEFA32951 /* PropertyGridView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		1A00006D0000000000000001 /* Dashboard */ = {
-			isa = PBXGroup;
-			children = (
-				1A0000710000000000000001 /* DashboardWindow.swift */,
-				1A00006E0000000000000001 /* Sections */,
-			);
-			path = Dashboard;
-			sourceTree = "<group>";
-		};
-		1A00006E0000000000000001 /* Sections */ = {
-			isa = PBXGroup;
-			children = (
-				1A0000730000000000000001 /* OverviewSection.swift */,
-				1A0000750000000000000001 /* TrafficSection.swift */,
-				1A0000770000000000000001 /* SearchSection.swift */,
-				1A0000790000000000000001 /* PagesSection.swift */,
-				1A00007B0000000000000001 /* AudienceSection.swift */,
-			);
-			path = Sections;
 			sourceTree = "<group>";
 		};
 		1A00002A0000000000000001 /* Resources */ = {
@@ -206,6 +199,7 @@
 				1A0000490000000000000001 /* AlertsCard.swift */,
 				1A00004F0000000000000001 /* ExtendedMetricsCard.swift */,
 				1A0000510000000000000001 /* SearchConsoleCard.swift */,
+				9157521CF733F7DAC71E538A /* PropertyCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -225,6 +219,27 @@
 				1A0000550000000000000001 /* DateUtilities.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		1A00006D0000000000000001 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000710000000000000001 /* DashboardWindow.swift */,
+				1A00006E0000000000000001 /* Sections */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		1A00006E0000000000000001 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000730000000000000001 /* OverviewSection.swift */,
+				1A0000750000000000000001 /* TrafficSection.swift */,
+				1A0000770000000000000001 /* SearchSection.swift */,
+				1A0000790000000000000001 /* PagesSection.swift */,
+				1A00007B0000000000000001 /* AudienceSection.swift */,
+			);
+			path = Sections;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -333,6 +348,11 @@
 				1A0000760000000000000001 /* SearchSection.swift in Sources */,
 				1A0000780000000000000001 /* PagesSection.swift in Sources */,
 				1A00007A0000000000000001 /* AudienceSection.swift in Sources */,
+				A9731FABE91935D105FBAF2A /* PropertyData.swift in Sources */,
+				32992839B3767A652021304B /* MultiPropertyService.swift in Sources */,
+				CBF62FFE5EC06F4297F634CB /* MainPopoverView.swift in Sources */,
+				F67C6C98D395623E907CF553 /* PropertyGridView.swift in Sources */,
+				B6306F6B14D0E925330E4E7F /* PropertyCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

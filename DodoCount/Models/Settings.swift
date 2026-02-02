@@ -25,6 +25,9 @@ struct AppSettings: Codable {
     // Keyboard shortcut
     var globalHotkeyEnabled: Bool
 
+    // Grid View
+    var useGridView: Bool
+
     static var `default`: AppSettings {
         AppSettings(
             selectedPropertyId: nil,
@@ -40,7 +43,8 @@ struct AppSettings: Codable {
             alertOnTrafficDrop: true,
             dailyUserGoal: 1000,
             showGoalProgress: true,
-            globalHotkeyEnabled: true
+            globalHotkeyEnabled: true,
+            useGridView: false
         )
     }
 }
